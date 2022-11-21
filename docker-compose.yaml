@@ -1,0 +1,17 @@
+
+version: '3.5'
+
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-suflex}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-suflex}
+      PGDATA: /data/postgres
+    volumes:
+       - .docker/data/postgres:/data/postgres
+       - ./scripts/sql/create_database.sql:/docker-entrypoint-initdb.d/create_database.sql
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
