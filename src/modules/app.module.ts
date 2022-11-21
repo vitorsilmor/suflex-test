@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigurationModules } from '../configurations';
+import { ConfigurationModules } from './configs';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
