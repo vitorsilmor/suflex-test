@@ -5,7 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      useFactory: async () => (await import('./typeorm/datasource')).options,
+      useFactory: async () =>
+        (await import('./typeorm/datasource')).optionsWithoutMigration,
     }),
   ],
   exports: [TypeOrmModule],
