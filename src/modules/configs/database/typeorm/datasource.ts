@@ -1,6 +1,7 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
+import * as path from 'path';
 
-export const options: DataSourceOptions = {
+export const optionsWithoutMigration: DataSourceOptions = {
   type: process.env.TYPEORM_CONNECTION as any,
   host: process.env.TYPEORM_HOST,
   username: process.env.TYPEORM_USERNAME,
@@ -8,13 +9,21 @@ export const options: DataSourceOptions = {
   database: process.env.TYPEORM_DATABASE,
   port: +process.env.TYPEORM_PORT,
   synchronize: process.env.TYPEORM_SYNCHRONIZE === 'true',
-  entities: [process.env.TYPEORM_ENTITIES],
-  migrations: [process.env.TYPEORM_MIGRATIONS],
-  migrationsRun: process.env.TYPEORM_MIGRATIONS_RUN === 'true',
+  entities: [
+    path.resolve(__dirname, '../../../../', process.env.TYPEORM_ENTITIES),
+  ],
   logging: process.env.TYPEORM_LOGGING === 'true',
   supportBigNumbers: true,
 };
 
-const dataSource = new DataSource(options);
+export const optionsWithMigration: DataSourceOptions = {
+  ...optionsWithoutMigration,
+  migrations: [
+    path.resolve(__dirname, '../../../../../', process.env.TYPEORM_MIGRATIONS),
+  ],
+  migrationsRun: process.env.TYPEORM_MIGRATIONS_RUN === 'true',
+};
+
+const dataSource = new DataSource(optionsWithMigration);
 
 export default dataSource;
